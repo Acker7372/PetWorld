@@ -1,0 +1,124 @@
+<template>
+  <div
+    class="card p-0 mx-1 mb-5"
+    v-for="animal in AnimalsStore.currentAnimals"
+    :key="animal.animal_id"
+  >
+    <img
+      v-if="animal.album_file === ''"
+      src="../assets/img/default.jpg"
+      class="card-img-top"
+      alt="Animal Image"
+      loading="lazy"
+    />
+    <img
+      v-else
+      :src="animal.album_file"
+      @error="(event) => (event.target.src = defaultImage)"
+      class="card-img-top"
+      alt="Animal Image"
+      loading="lazy"
+    />
+    <div class="card-body">
+      <h5 class="card-title mb-3">{{ animal.animal_colour }}{{ animal.animal_Variety }}</h5>
+      <p class="card-text" v-if="animal.animal_sex === 'F'">性別： 女性</p>
+      <p class="card-text" v-else-if="animal.animal_sex === 'M'">性別： 男性</p>
+      <p class="card-text" v-else="animal.animal_sex === ''">性別： 尚未標明</p>
+      <p class="card-text">
+        地點： <span>{{ animal.animal_place }}</span>
+      </p>
+      <p class="card-text">{{ animal.animal_opendate }} 可認養</p>
+      <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-success w-75">
+          <router-link
+            class="nav-link"
+            :to="{ name: 'AnimalDetails', params: { animalId: animal.animal_id } }"
+            >詳細資訊</router-link
+          >
+        </button>
+      </div>
+      <div class="imgBox" @click="keepAnimalInfo(animal.animal_id)">
+        <!-- 傳入 animal_id -->
+        <img
+          v-if="keep[animal.animal_id] === undefined"
+          src="../assets/Icons/keepless.png"
+          alt=""
+        />
+        <img v-if="keep[animal.animal_id] === false" src="../assets/Icons/keepless.png" alt="" />
+        <img v-if="keep[animal.animal_id] === true" src="../assets/Icons/keep.png" alt="" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { onMounted, ref } from 'vue';
+import { useAnimalsStore } from '@/stores/animals';
+import defaultImage from '../assets/img/default.jpg';
+
+const AnimalsStore = useAnimalsStore();
+const keep = ref({});
+
+onMounted(async () => {
+  await AnimalsStore.getAnimalsData();
+});
+
+function keepAnimalInfo(animal_id) {
+  // 傳入 animal_id
+  if (keep.value[animal_id] === undefined) {
+    keep.value[animal_id] = true;
+  } else if (keep.value[animal_id] === true) {
+    delete keep.value[animal_id];
+  }
+  console.log(keep.value);
+}
+</script>
+
+<style scoped lang="scss">
+.card {
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  width: 300px;
+  img {
+    // width: 100%;
+    height: 235px;
+    object-fit: cover;
+  }
+  .card-body {
+    // display: flex;
+    // flex-direction: column;
+    height: 287px;
+    .card-text {
+      white-space: nowrap;
+      span {
+        font-size: x-small;
+      }
+    }
+    .imgBox {
+      position: absolute;
+      left: 255px;
+      bottom: 28px;
+      width: 100px;
+      img {
+        width: 30px;
+        height: 30px;
+      }
+      &:hover::before {
+        position: absolute;
+        right: 75px;
+        bottom: 30px;
+        color: #fff;
+        font-size: 0.6em;
+        background: #49a971;
+        padding: 5px;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        content: '收藏';
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
+</style>
