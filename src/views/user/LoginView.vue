@@ -41,11 +41,15 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import { useRouter } from 'vue-router';
 import router from '@/router';
+import { useAnimalsStore } from '@/stores/animals';
+import { storeToRefs } from 'pinia';
 
+const AnimalsStore = useAnimalsStore();
+const { myJWT } = storeToRefs(AnimalsStore);
 const email = ref('');
 const password = ref('');
+
 const submitForm = async () => {
   if (!email.value || !password.value) {
     alert('請輸入帳號及密碼！');
@@ -58,14 +62,16 @@ const submitForm = async () => {
   try {
     const response = await axios.post('http://localhost:3000/login', userData);
     if (response.status === 200) {
+      myJWT.value = response.data;
+      localStorage.setItem('jwt', response.data.token);
+      console.log(myJWT.value);
       alert('登錄成功！');
       router.push({ name: 'Animals' });
     }
   } catch (error) {
-    if (error.response.status === 400) {
-      alert('電子郵件或是密碼錯誤！');
-      return;
-    }
+    console.error(error);
+    alert(error.response.data);
+    return;
   }
 };
 

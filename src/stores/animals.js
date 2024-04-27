@@ -10,7 +10,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
   const selectType = ref('');
   const selectGender = ref('');
   const totalPages = computed(() => Math.ceil(animalsData.value.length / pageSize));
-
+  const myJWT = ref(null);
   const currentAnimals = computed(() => {
     const start = (currentPage.value - 1) * pageSize;
     const end = start + pageSize;
@@ -43,6 +43,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
     selectRegion,
     selectGender,
     selectType,
+    myJWT,
     getAnimalsData,
     goToPage,
   };

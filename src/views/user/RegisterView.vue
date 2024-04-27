@@ -1,8 +1,8 @@
 <template>
-  <div class="container vw-100 vh-100 background">
+  <div class="container vw-100 vh-auto background">
     <div class="registerBox">
       <!-- 標題和Logo -->
-      <div class="d-flex justify-content-center me-2 mt-2">
+      <div class="logoBox d-flex justify-content-center me-2">
         <img class="logo" src="../../assets/img/logo.svg" alt="Pet World Logo" />
         <h3 class="d-inline-block websiteName">Pet world</h3>
       </div>
@@ -61,7 +61,7 @@
       </form>
       <div>
         <span>先逛逛？</span>
-        <u class="goBack" @click="goBack">回上一頁</u>
+        <u class="goBack" @click="goBack" style="cursor: pointer">回上一頁</u>
       </div>
     </div>
   </div>
@@ -135,6 +135,10 @@ const goBack = () => {
 </script>
 
 <style scoped lang="scss">
+.logoBox {
+  position: relative;
+  top: 10px;
+}
 h3 {
   font-family: 'Concert One', sans-serif;
   font-weight: 400;
@@ -170,16 +174,20 @@ h3 {
       border: 1px solid gainsboro;
       border-radius: 10px;
       padding: 1rem;
+      margin: 20px 0;
       /* Logo樣式 */
-      img {
-        width: 4rem;
-        height: 4rem;
-      }
-      /* 網站名稱樣式 */
-      .websiteName {
-        font-size: 2rem;
-        position: relative;
-        top: 0.8rem;
+      .logoBox {
+        top: 0;
+        img {
+          width: 3rem;
+          height: 3rem;
+        }
+        /* 網站名稱樣式 */
+        .websiteName {
+          font-size: 2rem;
+          position: relative;
+          top: 0.3rem;
+        }
       }
       /* 提示文字樣式 */
       h6 {
