@@ -1,8 +1,8 @@
 <template>
   <div class="body">
     <NavBar v-if="!$route.meta.hide" class="sticky-top" />
-    <router-view class="" />
-    <Footer v-if="!$route.meta.hide" />
+    <router-view />
+    <Footer v-if="!$route.meta.hide" class="footer" />
   </div>
 </template>
 <script setup>
@@ -12,6 +12,7 @@ import Footer from '@/components/Footer.vue';
 <style>
 @import '../src/assets/style/fonts/font.css';
 .body {
+  min-height: 100vh;
   box-sizing: border-box;
   font-family: Open Huninn;
   background: #f8f0e5;

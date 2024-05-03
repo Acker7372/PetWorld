@@ -1,8 +1,10 @@
 <template>
+  <Loading v-if="isLoading" />
   <div
     class="card p-0 mx-1 mb-5"
-    v-for="animal in AnimalsStore.currentAnimals"
+    v-for="animal in currentAnimals"
     :key="animal.animal_id"
+    v-if="!isLoading"
   >
     <img
       v-if="animal.album_file === ''"
@@ -21,15 +23,25 @@
     />
     <div class="card-body">
       <h5 class="card-title mb-3">{{ animal.animal_colour }}{{ animal.animal_Variety }}</h5>
-      <p class="card-text" v-if="animal.animal_sex === 'F'">性別： 女性</p>
-      <p class="card-text" v-else-if="animal.animal_sex === 'M'">性別： 男性</p>
-      <p class="card-text" v-else="animal.animal_sex === ''">性別： 尚未標明</p>
-      <p class="card-text">
-        地點： <span>{{ animal.animal_place }}</span>
-      </p>
-      <p class="card-text">{{ animal.animal_opendate }} 可認養</p>
+      <div class="card-text d-flex align-items-center">
+        <font-awesome-icon :icon="['fas', 'venus-mars']" class="fa-xs" />
+        <p class="card-text" v-if="animal.animal_sex === 'F'">女生</p>
+        <p class="card-text" v-else-if="animal.animal_sex === 'M'">男生</p>
+        <p class="card-text" v-else="animal.animal_sex === ''">尚未標明</p>
+      </div>
+
+      <div class="card-text d-flex align-items-center my-2">
+        <font-awesome-icon :icon="['fas', 'location-dot']" class="" />
+        <p class="card-text">
+          <span>{{ animal.animal_place }}</span>
+        </p>
+      </div>
+      <div class="card-text d-flex align-items-center">
+        <font-awesome-icon :icon="['fas', 'calendar-days']" />
+        <p class="card-text">{{ animal.animal_opendate }} 可認養</p>
+      </div>
       <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-success w-75">
+        <button type="button" class="btn btn-success w-75 mt-3">
           <router-link
             class="nav-link"
             :to="{ name: 'AnimalDetails', params: { animalId: animal.animal_id } }"
@@ -37,15 +49,13 @@
           >
         </button>
       </div>
-      <div class="imgBox" @click="keepAnimalInfo(animal.animal_id)">
-        <!-- 傳入 animal_id -->
+      <div class="imgBox" @click="AnimalsStore.saveAnimalId(animal.animal_id)">
         <img
-          v-if="keep[animal.animal_id] === undefined"
-          src="../assets/Icons/keepless.png"
-          alt=""
+          v-if="favoriteAnimalId.some((fav) => fav.animalID === animal.animal_id)"
+          src="../assets/Icons/savedIcon.png"
+          alt="Favorite Animal icon"
         />
-        <img v-if="keep[animal.animal_id] === false" src="../assets/Icons/keepless.png" alt="" />
-        <img v-if="keep[animal.animal_id] === true" src="../assets/Icons/keep.png" alt="" />
+        <img v-else src="../assets/Icons/notSaveIcon.png" alt="" />
       </div>
     </div>
   </div>
@@ -54,24 +64,42 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useAnimalsStore } from '@/stores/animals';
+import { storeToRefs } from 'pinia';
 import defaultImage from '../assets/img/default.jpg';
+import Loading from '../components/Loading.vue';
+// import axios from 'axios';
 
 const AnimalsStore = useAnimalsStore();
-const keep = ref({});
+const { favoriteAnimalId, currentAnimals } = storeToRefs(AnimalsStore);
+const isLoading = ref(false);
 
 onMounted(async () => {
-  await AnimalsStore.getAnimalsData();
+  try {
+    if (currentAnimals.value.length === 0) {
+      isLoading.value = true;
+      await AnimalsStore.getFavoriteAnimalId();
+      await AnimalsStore.getAnimalsData();
+      isLoading.value = false;
+    }
+  } catch (error) {
+    console.error('AnimalCard.vue onMounted error:', error);
+  }
 });
 
-function keepAnimalInfo(animal_id) {
-  // 傳入 animal_id
-  if (keep.value[animal_id] === undefined) {
-    keep.value[animal_id] = true;
-  } else if (keep.value[animal_id] === true) {
-    delete keep.value[animal_id];
-  }
-  console.log(keep.value);
-}
+// async function saveAnimalId(animal_id) {
+//   const animalId = { animalId: animal_id };
+//   try {
+//     const response = await axios.post('http://localhost:3000/favoriteAnimal', animalId, {
+//       headers: {
+//         Authorization: `${localStorage.getItem('jwt')}`,
+//         'Content-Type': 'application/json',
+//       },
+//     });
+//     await AnimalsStore.getFavoriteAnimalId();
+//   } catch (error) {
+//     console.error('saveAnimalId失敗了', error);
+//   }
+// }
 </script>
 
 <style scoped lang="scss">
@@ -79,32 +107,32 @@ function keepAnimalInfo(animal_id) {
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
   width: 300px;
   img {
-    // width: 100%;
     height: 235px;
     object-fit: cover;
   }
   .card-body {
-    // display: flex;
-    // flex-direction: column;
-    height: 287px;
+    height: 256px;
     .card-text {
       white-space: nowrap;
       span {
-        font-size: x-small;
+        margin-left: 3px;
+      }
+      p {
+        font-size: small;
+        margin-left: 10px;
       }
     }
     .imgBox {
       position: absolute;
       left: 255px;
-      bottom: 28px;
-      width: 100px;
+      bottom: 30px;
       img {
-        width: 30px;
-        height: 30px;
+        width: 25px;
+        height: 25px;
       }
       &:hover::before {
         position: absolute;
-        right: 75px;
+        right: 30px;
         bottom: 30px;
         color: #fff;
         font-size: 0.6em;

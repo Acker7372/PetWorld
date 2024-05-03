@@ -12,16 +12,15 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="test">
-        <div class="logo-box">
-          <a class="navbar-brand" href="#"
-            ><img src="../assets/img/logo.svg" alt="img" /><span class="websiteName"
-              >Pet world</span
-            ></a
-          >
-        </div>
-        <div class="no-box"></div>
+
+      <div class="logo-box">
+        <a class="navbar-brand m-0" href="#"
+          ><img src="../assets/img/logo.svg" alt="img" /><span class="websiteName"
+            >Pet world</span
+          ></a
+        >
       </div>
+
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-3 ms-md-0">
           <li class="nav-item">
@@ -57,31 +56,25 @@ nav {
   background: #e9e7e7;
   .nav-box {
     width: 100vw;
-    .test {
-      width: 70%;
-      display: inline-flex;
-      justify-content: center;
-      position: relative;
-      left: 5%;
-      .logo-box {
-        a {
-          img {
-            width: 50px;
-            height: 50px;
-          }
-          .websiteName {
-            font-family: 'Concert One', sans-serif;
-            font-weight: 400;
-            font-style: normal;
-            position: relative;
-            top: 0.2rem;
-            // color: aliceblue;
-          }
+
+    .logo-box {
+      position: absolute;
+      left: 50%;
+      top: 10px;
+      transform: translateX(-50%);
+      a {
+        img {
+          width: 50px;
+          height: 50px;
         }
-      }
-      .no-box {
-        width: 69.5px;
-        height: 49.5px;
+        .websiteName {
+          font-family: 'Concert One', sans-serif;
+          font-weight: 400;
+          font-style: normal;
+          position: relative;
+          top: 0.2rem;
+          // color: aliceblue;
+        }
       }
     }
   }
@@ -90,18 +83,17 @@ nav {
   nav {
     .nav-box {
       display: flex;
-      .test {
-        width: auto;
-        justify-content: flex-start;
-        .logo-box {
-          margin-left: 5px;
-        }
-        .no-box {
-          width: 8vw;
-        }
+      .logo-box {
+        position: static;
+        transform: none;
+        margin: 0 2rem;
       }
-      .collapse {
-        margin-top: 3px;
+      #navbarSupportedContent {
+        ul {
+          position: absolute;
+          right: 5px;
+          top: 12px;
+        }
       }
     }
   }
@@ -113,29 +105,31 @@ nav {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      .test {
-        left: 0;
-        bottom: 20px;
-        .no-box {
-          display: none;
-        }
-        .logo-box {
-          a {
-            img {
-              width: 80px;
-              height: 80px;
-              position: relative;
-              bottom: 20px;
-            }
-            span {
-              font-size: 4rem;
-            }
+
+      .logo-box {
+        a {
+          position: relative;
+          top: -20px;
+          img {
+            width: 70px;
+            height: 70px;
+            position: relative;
+            bottom: 15px;
+          }
+          span {
+            font-size: 3.5rem;
           }
         }
       }
-      .collapse {
-        margin-top: -30px;
+
+      #navbarSupportedContent {
+        ul {
+          position: static;
+        }
       }
+    }
+    .collapse {
+      margin-top: -30px;
     }
   }
 }
