@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export const useAnimalsStore = defineStore('Animals', () => {
   const animalsData = ref([]);
-  const favoriteAnimalId = ref();
+  const favoriteAnimalId = ref([]);
   const currentPage = ref(1);
   const pageSize = 20;
   const selectRegion = ref('');
@@ -37,6 +37,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
         },
       });
       favoriteAnimalId.value = response.data;
+      console.log(1);
     } catch (error) {
       console.error('getFavoriteAnimalId失敗了', error);
     }
@@ -44,9 +45,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
 
   async function saveAnimalId(animal) {
     try {
-      console.log('1');
       const animalId = { animalId: animal };
-
       const response = await axios.post('http://localhost:3000/favoriteAnimal', animalId, {
         headers: {
           Authorization: `${localStorage.getItem('jwt')}`,
@@ -55,7 +54,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
       });
       getFavoriteAnimalId();
     } catch (error) {
-      console.error('getFavoriteAnimalId失敗了', error);
+      console.error('saveFavoriteAnimalId失敗了', error);
     }
   }
 

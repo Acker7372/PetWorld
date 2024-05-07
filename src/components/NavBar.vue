@@ -60,12 +60,12 @@ nav {
     .logo-box {
       position: absolute;
       left: 50%;
-      top: 10px;
+      top: 5px;
       transform: translateX(-50%);
       a {
         img {
-          width: 50px;
-          height: 50px;
+          width: 45px;
+          height: 45px;
         }
         .websiteName {
           font-family: 'Concert One', sans-serif;

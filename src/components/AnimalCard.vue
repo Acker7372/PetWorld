@@ -41,7 +41,7 @@
         <p class="card-text">{{ animal.animal_opendate }} 可認養</p>
       </div>
       <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-success w-75 mt-3">
+        <button type="button" class="btn btn-success mt-4 ">
           <router-link
             class="nav-link"
             :to="{ name: 'AnimalDetails', params: { animalId: animal.animal_id } }"
@@ -49,13 +49,16 @@
           >
         </button>
       </div>
-      <div class="imgBox" @click="AnimalsStore.saveAnimalId(animal.animal_id)">
+      <div v-if="AuthStore.isLoggedIn" class="imgBox" @click="AuthStore.executeIfLoggedIn(() => AnimalsStore.saveAnimalId(animal.animal_id))">
         <img
-          v-if="favoriteAnimalId.some((fav) => fav.animalID === animal.animal_id)"
+          v-if="AnimalsStore.favoriteAnimalId.some((fav) => fav.animalID === animal.animal_id)"
           src="../assets/Icons/savedIcon.png"
           alt="Favorite Animal icon"
         />
         <img v-else src="../assets/Icons/notSaveIcon.png" alt="" />
+      </div>
+      <div v-else class="imgBox" @click="AuthStore.isLoggedIn">
+        <img src="../assets/Icons/notSaveIcon.png" alt="" />
       </div>
     </div>
   </div>
@@ -64,12 +67,14 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useAnimalsStore } from '@/stores/animals';
+import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import defaultImage from '../assets/img/default.jpg';
 import Loading from '../components/Loading.vue';
 // import axios from 'axios';
 
 const AnimalsStore = useAnimalsStore();
+const AuthStore = useAuthStore();
 const { favoriteAnimalId, currentAnimals } = storeToRefs(AnimalsStore);
 const isLoading = ref(false);
 
@@ -77,41 +82,34 @@ onMounted(async () => {
   try {
     if (currentAnimals.value.length === 0) {
       isLoading.value = true;
-      await AnimalsStore.getFavoriteAnimalId();
       await AnimalsStore.getAnimalsData();
       isLoading.value = false;
-    }
+    };
+    AuthStore.executeIfLoggedIn(() => AnimalsStore.getFavoriteAnimalId());
+
   } catch (error) {
     console.error('AnimalCard.vue onMounted error:', error);
   }
 });
 
-// async function saveAnimalId(animal_id) {
-//   const animalId = { animalId: animal_id };
-//   try {
-//     const response = await axios.post('http://localhost:3000/favoriteAnimal', animalId, {
-//       headers: {
-//         Authorization: `${localStorage.getItem('jwt')}`,
-//         'Content-Type': 'application/json',
-//       },
-//     });
-//     await AnimalsStore.getFavoriteAnimalId();
-//   } catch (error) {
-//     console.error('saveAnimalId失敗了', error);
-//   }
-// }
+
 </script>
 
 <style scoped lang="scss">
 .card {
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
   width: 300px;
+  height: auto;
+
   img {
     height: 235px;
     object-fit: cover;
   }
   .card-body {
-    height: 256px;
+    height: auto;
+    position: relative;
+    top: 0;
+    bottom: 0;
     .card-text {
       white-space: nowrap;
       span {
@@ -124,8 +122,9 @@ onMounted(async () => {
     }
     .imgBox {
       position: absolute;
-      left: 255px;
-      bottom: 30px;
+      left: 260px;
+      // bottom: 30px;
+      top: 13px;
       img {
         width: 25px;
         height: 25px;

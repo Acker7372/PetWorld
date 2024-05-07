@@ -118,13 +118,14 @@
 <script setup>
 import { ref } from 'vue';
 import { useAnimalsStore } from '@/stores/animals';
-import { useLoadingStore } from '@/stores/loading';
+
 import { storeToRefs } from 'pinia';
 
 const AnimalStore = useAnimalsStore();
 const { selectRegion, selectGender, selectType } = storeToRefs(AnimalStore);
-const { isLoading } = storeToRefs(useLoadingStore());
+
 const selectBox = ref(true);
+const isLoading = ref(false);
 async function handleSearch() {
   isLoading.value = true;
   await AnimalStore.getAnimalsData();

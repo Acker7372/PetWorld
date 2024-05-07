@@ -32,7 +32,7 @@
       </form>
       <div>
         <span>先逛逛？</span>
-        <u class="goBack" @click="goBack">回上一頁</u>
+        <u class="goBack" style="cursor: pointer" @click="goBack">回上一頁</u>
       </div>
     </div>
   </div>

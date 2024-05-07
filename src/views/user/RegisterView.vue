@@ -1,5 +1,5 @@
 <template>
-  <div class="container vw-100 vh-auto background">
+  <div class="container vw-100 min-vh-100  background">
     <div class="registerBox">
       <!-- 標題和Logo -->
       <div class="logoBox d-flex justify-content-center me-2">

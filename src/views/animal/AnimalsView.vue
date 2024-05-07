@@ -7,7 +7,8 @@
     <Pagination class="d-flex justify-content-center" />
   </div>
 </template>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>
 
 <script setup>
 import AnimalCard from '@/components/AnimalCard.vue';
