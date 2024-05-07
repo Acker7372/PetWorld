@@ -1,5 +1,7 @@
 <template>
+  <!-- 取得資料中顯示載入動畫 -->
   <Loading v-if="isLoading" />
+  <!-- 載入動畫結束，則顯示動物卡片 -->
   <div
     class="card p-0 mx-1 mb-5"
     v-for="animal in currentAnimals"
@@ -7,8 +9,8 @@
     v-if="!isLoading"
   >
     <img
-      v-if="animal.album_file === ''"
-      src="../assets/img/default.jpg"
+      v-if="!animal.album_file"
+      src="@/assets/img/default.jpg"
       class="card-img-top"
       alt="Animal Image"
       loading="lazy"
@@ -41,7 +43,7 @@
         <p class="card-text">{{ animal.animal_opendate }} 可認養</p>
       </div>
       <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-success mt-4 ">
+        <button type="button" class="btn btn-success mt-4">
           <router-link
             class="nav-link"
             :to="{ name: 'AnimalDetails', params: { animalId: animal.animal_id } }"
@@ -49,7 +51,11 @@
           >
         </button>
       </div>
-      <div v-if="AuthStore.isLoggedIn" class="imgBox" @click="AuthStore.executeIfLoggedIn(() => AnimalsStore.saveAnimalId(animal.animal_id))">
+      <div
+        v-if="AuthStore.isLoggedIn"
+        class="imgBox"
+        @click="AuthStore.executeIfLoggedIn(() => AnimalsStore.saveAnimalId(animal.animal_id))"
+      >
         <img
           v-if="AnimalsStore.favoriteAnimalId.some((fav) => fav.animalID === animal.animal_id)"
           src="../assets/Icons/savedIcon.png"
@@ -80,19 +86,18 @@ const isLoading = ref(false);
 
 onMounted(async () => {
   try {
+    //如果沒有動物資料，則取得動物資料
     if (currentAnimals.value.length === 0) {
       isLoading.value = true;
       await AnimalsStore.getAnimalsData();
       isLoading.value = false;
-    };
+    }
+    //如果登入，則取得使用者的最愛動物ID
     AuthStore.executeIfLoggedIn(() => AnimalsStore.getFavoriteAnimalId());
-
   } catch (error) {
     console.error('AnimalCard.vue onMounted error:', error);
   }
 });
-
-
 </script>
 
 <style scoped lang="scss">

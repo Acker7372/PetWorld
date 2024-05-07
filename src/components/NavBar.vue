@@ -35,11 +35,20 @@
           <li class="nav-item">
             <a class="nav-link" href="#">寵物送別</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!AuthStore.isLoggedIn">
             <router-link class="nav-link" to="/login">登入</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!AuthStore.isLoggedIn">
             <router-link class="nav-link" to="/register">註冊</router-link>
+          </li>
+          <li class="nav-item" v-if="AuthStore.isLoggedIn">
+            <router-link class="nav-link" to="/favoriteAnimals">我的收藏</router-link>
+          </li>
+          <li class="nav-item" v-if="AuthStore.isLoggedIn">
+            <router-link class="nav-link" to="/memberProfile">會員中心</router-link>
+          </li>
+          <li class="nav-item" v-if="AuthStore.isLoggedIn" @click="AuthStore.logout">
+            <router-link class="nav-link" to="/login">登出</router-link>
           </li>
         </ul>
       </div>
@@ -49,6 +58,9 @@
 
 <script setup>
 import { RouterLink } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+
+const AuthStore = useAuthStore();
 </script>
 
 <style scoped lang="scss">

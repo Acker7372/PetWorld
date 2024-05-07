@@ -25,6 +25,16 @@ const router = createRouter({
       name: 'AnimalDetails',
       component: () => import('../views/animal/AnimalDetailsView.vue'),
     },
+    {
+      path: '/favoriteAnimals',
+      name: 'FavoriteAnimals',
+      component: () => import('../views/animal/FavoriteAnimalsView.vue'),
+    },
+    {
+      path: '/memberProfile',
+      name: 'MemberProfile',
+      component: () => import('../views/user/MemberProfileView.vue'),
+    }
   ],
 });
 

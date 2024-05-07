@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('Auth', () => {
 
   const logout = () => {
     localStorage.removeItem('jwt');
-    alert('已登出！');
+    alert('您已登出！');
   };
 
   const reloadPage = () => {
