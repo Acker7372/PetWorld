@@ -4,17 +4,33 @@ import axios from 'axios';
 
 export const useAnimalsStore = defineStore('Animals', () => {
   const animalsData = ref([]);
-  const favoriteAnimalId = ref([]);
+  const favoriteAnimalId = ref();
   const currentPage = ref(1);
-  const pageSize = 20;
+  const pageSize = 10;
   const selectRegion = ref('');
   const selectType = ref('');
   const selectGender = ref('');
-  const totalPages = computed(() => Math.ceil(animalsData.value.length / pageSize));
+  const data = ref([]);
+
+  // const totalPages = computed(() => Math.ceil(animalsData.value.length / pageSize));
+  // const currentAnimals = computed(() => {
+  //   const start = (currentPage.value - 1) * pageSize;
+  //   const end = start + pageSize;
+  //   return animalsData.value.slice(start, end);
+  // });
+  // const countPages = (data) => computed(() => Math.ceil(data.value.length / pageSize));
+  // const countCurrentAnimals = (data, currentPage) =>
+  //   computed(() => {
+  //     const start = (currentPage.value - 1) * pageSize;
+  //     const end = start + pageSize;
+  //     return data.value.slice(start, end);
+  //   });
+  const totalPages = computed(() => Math.ceil(data.value.length / pageSize));
+
   const currentAnimals = computed(() => {
     const start = (currentPage.value - 1) * pageSize;
     const end = start + pageSize;
-    return animalsData.value.slice(start, end);
+    return data.value.slice(start, end);
   });
 
   async function getAnimalsData() {
@@ -37,7 +53,6 @@ export const useAnimalsStore = defineStore('Animals', () => {
         },
       });
       favoriteAnimalId.value = response.data;
-      console.log(1);
     } catch (error) {
       console.error('getFavoriteAnimalId失敗了', error);
     }
@@ -46,6 +61,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
   async function saveAnimalId(animal) {
     try {
       const animalId = { animalId: animal };
+
       const response = await axios.post('http://localhost:3000/favoriteAnimal', animalId, {
         headers: {
           Authorization: `${localStorage.getItem('jwt')}`,
@@ -54,7 +70,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
       });
       getFavoriteAnimalId();
     } catch (error) {
-      console.error('saveFavoriteAnimalId失敗了', error);
+      console.error('getFavoriteAnimalId失敗了', error);
     }
   }
 
@@ -68,12 +84,14 @@ export const useAnimalsStore = defineStore('Animals', () => {
   return {
     animalsData,
     favoriteAnimalId,
+    data,
     currentPage,
     totalPages,
     currentAnimals,
     selectRegion,
     selectGender,
     selectType,
+    pageSize,
     getAnimalsData,
     goToPage,
     getFavoriteAnimalId,

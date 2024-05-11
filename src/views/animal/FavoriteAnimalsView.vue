@@ -5,7 +5,7 @@
   <div class="container">
     <div
       class="card p-0 mx-1 mb-5"
-      v-for="animal in favoriteAnimalsData"
+      v-for="animal in currentAnimals"
       :key="animal.animal_id"
       v-if="!isLoading"
     >
@@ -70,26 +70,39 @@
       </div>
     </div>
   </div>
+  <Pagination class="d-flex justify-content-center" />
 </template>
 
 <script setup>
 import { useAnimalsStore } from '@/stores/animals';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 import Loading from '@/components/Loading.vue';
 import Pagination from '@/components/Pagination.vue';
 
 const AnimalsStore = useAnimalsStore();
 const AuthStore = useAuthStore();
-const { animalsData, favoriteAnimalId } = storeToRefs(AnimalsStore);
+const { animalsData, favoriteAnimalId, data, currentAnimals, currentPage } =
+  storeToRefs(AnimalsStore);
+const pageSize = AnimalsStore.pageSize;
 const isLoading = ref(false);
+
+console.log('pageSize', pageSize);
 
 const favoriteAnimalsData = computed(() => {
   return animalsData.value.filter((animal) => {
     return favoriteAnimalId.value.some((fav) => fav.animalID === animal.animal_id);
   });
 });
+
+watch(favoriteAnimalsData, (newVal) => {
+  data.value = newVal;
+});
+
+console.log('data:1', data.value);
+
+console.log('currentAnimals:', currentAnimals.value);
 
 onMounted(async () => {
   try {
@@ -111,18 +124,16 @@ onMounted(async () => {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1rem;
   justify-items: center;
+  min-height: 100vh;
 }
 .card {
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
   width: 300px;
-  height: auto;
-
   img {
     height: 235px;
     object-fit: cover;
   }
   .card-body {
-    height: auto;
     position: relative;
     top: 0;
     bottom: 0;
@@ -139,8 +150,7 @@ onMounted(async () => {
     .imgBox {
       position: absolute;
       left: 260px;
-      bottom: 30px;
-      top: 13px;
+      top: 11px;
       img {
         width: 25px;
         height: 25px;

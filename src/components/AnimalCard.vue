@@ -1,7 +1,5 @@
 <template>
-  <!-- 取得資料中顯示載入動畫 -->
   <Loading v-if="isLoading" />
-  <!-- 載入動畫結束，則顯示動物卡片 -->
   <div
     class="card p-0 mx-1 mb-5"
     v-for="animal in currentAnimals"
@@ -10,7 +8,7 @@
   >
     <img
       v-if="!animal.album_file"
-      src="@/assets/img/default.jpg"
+      src="../assets/img/default.jpg"
       class="card-img-top"
       alt="Animal Image"
       loading="lazy"
@@ -43,7 +41,7 @@
         <p class="card-text">{{ animal.animal_opendate }} 可認養</p>
       </div>
       <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-success mt-4">
+        <button type="button" class="btn btn-success w-75 mt-3">
           <router-link
             class="nav-link"
             :to="{ name: 'AnimalDetails', params: { animalId: animal.animal_id } }"
@@ -51,20 +49,13 @@
           >
         </button>
       </div>
-      <div
-        v-if="AuthStore.isLoggedIn"
-        class="imgBox"
-        @click="AuthStore.executeIfLoggedIn(() => AnimalsStore.saveAnimalId(animal.animal_id))"
-      >
+      <div class="imgBox" @click="AnimalsStore.saveAnimalId(animal.animal_id)">
         <img
-          v-if="AnimalsStore.favoriteAnimalId.some((fav) => fav.animalID === animal.animal_id)"
+          v-if="favoriteAnimalId.some((fav) => fav.animalID === animal.animal_id)"
           src="../assets/Icons/savedIcon.png"
           alt="Favorite Animal icon"
         />
         <img v-else src="../assets/Icons/notSaveIcon.png" alt="" />
-      </div>
-      <div v-else class="imgBox" @click="AuthStore.isLoggedIn">
-        <img src="../assets/Icons/notSaveIcon.png" alt="" />
       </div>
     </div>
   </div>
@@ -73,27 +64,24 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useAnimalsStore } from '@/stores/animals';
-import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import defaultImage from '../assets/img/default.jpg';
 import Loading from '../components/Loading.vue';
 // import axios from 'axios';
 
 const AnimalsStore = useAnimalsStore();
-const AuthStore = useAuthStore();
-const { favoriteAnimalId, currentAnimals } = storeToRefs(AnimalsStore);
+const { favoriteAnimalId, animalsData, currentAnimals, data } = storeToRefs(AnimalsStore);
 const isLoading = ref(false);
 
 onMounted(async () => {
   try {
-    //如果沒有動物資料，則取得動物資料
     if (currentAnimals.value.length === 0) {
       isLoading.value = true;
+      await AnimalsStore.getFavoriteAnimalId();
       await AnimalsStore.getAnimalsData();
+      data.value = animalsData.value;
       isLoading.value = false;
     }
-    //如果登入，則取得使用者的最愛動物ID
-    AuthStore.executeIfLoggedIn(() => AnimalsStore.getFavoriteAnimalId());
   } catch (error) {
     console.error('AnimalCard.vue onMounted error:', error);
   }
@@ -104,14 +92,12 @@ onMounted(async () => {
 .card {
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
   width: 300px;
-  height: auto;
-
   img {
     height: 235px;
     object-fit: cover;
   }
   .card-body {
-    height: auto;
+    height: 256px;
     position: relative;
     top: 0;
     bottom: 0;
@@ -128,8 +114,7 @@ onMounted(async () => {
     .imgBox {
       position: absolute;
       left: 260px;
-      // bottom: 30px;
-      top: 13px;
+      top: 11px;
       img {
         width: 25px;
         height: 25px;

@@ -13,8 +13,13 @@ import './assets/style/all.scss';
 // fontawesome
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faLocationDot, faVenusMars, faCalendarDays } from '@fortawesome/free-solid-svg-icons';
-library.add(faLocationDot, faVenusMars, faCalendarDays);
+import {
+  faLocationDot,
+  faVenusMars,
+  faCalendarDays,
+  faPencil,
+} from '@fortawesome/free-solid-svg-icons';
+library.add(faLocationDot, faVenusMars, faCalendarDays, faPencil);
 
 const app = createApp(App);
 

@@ -16,18 +16,18 @@
   background: rgb(236, 231, 231);
   .logoBox {
     img {
-      width: 20px;
-      height: 20px;
+      width: 25px;
+      height: 25px;
     }
     span {
-      font-size: 15px;
+      font-size: 20px;
       font-family: 'Concert One', sans-serif;
-      font-weight: 100;
+      // font-weight: 100;
       font-style: normal;
     }
   }
   div {
-    font-size: 15px;
+    font-size: 20px;
   }
 }
 </style>

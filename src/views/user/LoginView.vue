@@ -41,7 +41,12 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import router from '@/router';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
+const router = useRouter();
+const AuthStore = useAuthStore();
+const { userInfo } = storeToRefs(AuthStore);
 
 const email = ref('');
 const password = ref('');
@@ -60,6 +65,9 @@ const submitForm = async () => {
     if (response.status === 200) {
       localStorage.setItem('jwt', response.data.token);
       alert('登錄成功！');
+      console.log(response);
+      userInfo.value = response.data.user;
+      console.log('userInfo:', userInfo.value);
       router.push({ name: 'Animals' });
     }
   } catch (error) {

@@ -76,12 +76,11 @@ nav {
       transform: translateX(-50%);
       a {
         img {
-          width: 45px;
-          height: 45px;
+          width: 25px;
+          height: 25px;
         }
         .websiteName {
-          font-family: 'Concert One', sans-serif;
-          font-weight: 400;
+          // font-weight: 400;
           font-style: normal;
           position: relative;
           top: 0.2rem;

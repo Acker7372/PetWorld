@@ -10,11 +10,9 @@ import NavBar from '@/components/NavBar.vue';
 import Footer from '@/components/Footer.vue';
 </script>
 <style>
-@import '../src/assets/style/fonts/font.css';
 .body {
   min-height: 100vh;
   box-sizing: border-box;
-  font-family: Open Huninn;
   background: #f8f0e5;
 }
 /* @media (min-width: 768px) {

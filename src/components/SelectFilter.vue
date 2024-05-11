@@ -78,6 +78,25 @@
   </div>
 </template>
 
+<script setup>
+import { ref } from 'vue';
+import { useAnimalsStore } from '@/stores/animals';
+
+import { storeToRefs } from 'pinia';
+
+const AnimalStore = useAnimalsStore();
+const { selectRegion, selectGender, selectType } = storeToRefs(AnimalStore);
+
+const selectBox = ref(true);
+const isLoading = ref(false);
+async function handleSearch() {
+  isLoading.value = true;
+  await AnimalStore.getAnimalsData();
+  AnimalStore.goToPage(1);
+  isLoading.value = false;
+}
+</script>
+
 <style scoped lang="scss">
 .container {
   .displaySelectBox {
@@ -114,22 +133,3 @@
   opacity: 0;
 }
 </style>
-
-<script setup>
-import { ref } from 'vue';
-import { useAnimalsStore } from '@/stores/animals';
-
-import { storeToRefs } from 'pinia';
-
-const AnimalStore = useAnimalsStore();
-const { selectRegion, selectGender, selectType } = storeToRefs(AnimalStore);
-
-const selectBox = ref(true);
-const isLoading = ref(false);
-async function handleSearch() {
-  isLoading.value = true;
-  await AnimalStore.getAnimalsData();
-  AnimalStore.goToPage(1);
-  isLoading.value = false;
-}
-</script>
