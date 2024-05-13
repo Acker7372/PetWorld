@@ -66,26 +66,24 @@ import { onMounted, ref } from 'vue';
 import { useAnimalsStore } from '@/stores/animals';
 import { storeToRefs } from 'pinia';
 import defaultImage from '../assets/img/default.jpg';
-import Loading from '../components/Loading.vue';
-// import axios from 'axios';
+import Loading from '@/components/Loading.vue';
 
 const AnimalsStore = useAnimalsStore();
-const { favoriteAnimalId, animalsData, currentAnimals, data } = storeToRefs(AnimalsStore);
-const isLoading = ref(false);
-
-onMounted(async () => {
-  try {
-    if (currentAnimals.value.length === 0) {
-      isLoading.value = true;
-      await AnimalsStore.getFavoriteAnimalId();
-      await AnimalsStore.getAnimalsData();
-      data.value = animalsData.value;
-      isLoading.value = false;
-    }
-  } catch (error) {
-    console.error('AnimalCard.vue onMounted error:', error);
-  }
-});
+const { favoriteAnimalId, animalsData, currentAnimals, isLoading } = storeToRefs(AnimalsStore);
+// const isLoading = ref(false);
+// onMounted(async () => {
+//   try {
+//     if (currentAnimals.value.length === 0) {
+//       isLoading.value = true;
+//       await AnimalsStore.getFavoriteAnimalId();
+//       await AnimalsStore.getAnimalsData();
+//       data.value = animalsData.value;
+//       isLoading.value = false;
+//     }
+//   } catch (error) {
+//     console.error('AnimalCard.vue onMounted error:', error);
+//   }
+// });
 </script>
 
 <style scoped lang="scss">

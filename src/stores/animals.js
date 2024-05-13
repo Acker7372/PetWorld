@@ -1,4 +1,5 @@
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { defineStore } from 'pinia';
 import axios from 'axios';
 
@@ -11,6 +12,8 @@ export const useAnimalsStore = defineStore('Animals', () => {
   const selectType = ref('');
   const selectGender = ref('');
   const data = ref([]);
+  const isLoading = ref(false);
+  const router = useRouter();
 
   // const totalPages = computed(() => Math.ceil(animalsData.value.length / pageSize));
   // const currentAnimals = computed(() => {
@@ -81,6 +84,23 @@ export const useAnimalsStore = defineStore('Animals', () => {
     currentPage.value = page;
   }
 
+  // watch(
+  //   () => router.current,
+  //   async (newRouter) => {
+  //     if (newRouter.name === 'Animals') {
+  //       isLoading.value = true;
+  //       data.value = animalsData.value;
+  //       isLoading.value = false;
+  //     } else if (newRouter.name === 'FavoriteAnimals') {
+  //       isLoading.value = true;
+  //       data.value = animalsData.value.filter((animal) => {
+  //         return favoriteAnimalId.value.some((fav) => fav.animalID === animal.animal_id);
+  //       });
+  //       isLoading.value = false;
+  //     }
+  //   },
+  // );
+
   return {
     animalsData,
     favoriteAnimalId,
@@ -92,6 +112,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
     selectGender,
     selectType,
     pageSize,
+    isLoading,
     getAnimalsData,
     goToPage,
     getFavoriteAnimalId,

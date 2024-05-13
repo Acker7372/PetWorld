@@ -45,7 +45,7 @@
             <router-link class="nav-link" to="/favoriteAnimals">我的收藏</router-link>
           </li>
           <li class="nav-item" v-if="AuthStore.isLoggedIn">
-            <router-link class="nav-link" to="/memberProfile">會員中心</router-link>
+            <router-link class="nav-link" :to="{ name: 'MemberProfile' }">會員中心</router-link>
           </li>
           <li class="nav-item" v-if="AuthStore.isLoggedIn" @click="AuthStore.logout">
             <router-link class="nav-link" to="/login">登出</router-link>
