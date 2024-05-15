@@ -23,6 +23,67 @@ export const useAuthStore = defineStore('Auth', () => {
     }
   }
 
+  const updateUserName = async (newUserName) => {
+    try {
+      const response = await axios.patch(
+        'http://localhost:3000/userInfo/updateName',
+        {
+          userName: newUserName,
+        },
+        {
+          headers: {
+            Authorization: `${localStorage.getItem('jwt')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      await getUserInfo();
+    } catch (error) {
+      console.error('Api調用失敗了', error);
+    }
+  };
+
+  const updateUserBirthdate = async (newUserBirthdate) => {
+    try {
+      const response = await axios.patch(
+        'http://localhost:3000/userInfo/updateBirthdate',
+        {
+          userBirthdate: newUserBirthdate,
+        },
+        {
+          headers: {
+            Authorization: `${localStorage.getItem('jwt')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      await getUserInfo();
+    } catch (error) {
+      console.error('Api調用失敗了', error);
+    }
+  };
+
+  const updateUserEmail = async (newUserEmail) => {
+    try {
+      const response = await axios.patch(
+        'http://localhost:3000/userInfo/updateEmail',
+        {
+          userEmail: newUserEmail,
+        },
+        {
+          headers: {
+            Authorization: `${localStorage.getItem('jwt')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      localStorage.setItem('jwt', response.data.token);
+      await getUserInfo();
+    } catch (error) {
+      console.error('Api調用失敗了', error);
+    }
+  };
+
   const isLoggedIn = () => {
     if (!localStorage.getItem('jwt')) {
       alert('請先登入！');
@@ -54,5 +115,8 @@ export const useAuthStore = defineStore('Auth', () => {
     reloadPage,
     executeIfLoggedIn,
     getUserInfo,
+    updateUserName,
+    updateUserBirthdate,
+    updateUserEmail,
   };
 });

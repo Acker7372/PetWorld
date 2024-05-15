@@ -85,13 +85,14 @@ import { useAnimalsStore } from '@/stores/animals';
 import { storeToRefs } from 'pinia';
 
 const AnimalStore = useAnimalsStore();
-const { selectRegion, selectGender, selectType } = storeToRefs(AnimalStore);
+const { selectRegion, selectGender, selectType, isLoading, data, selectedAnimalsData } =
+  storeToRefs(AnimalStore);
 
 const selectBox = ref(true);
-const isLoading = ref(false);
 async function handleSearch() {
   isLoading.value = true;
-  await AnimalStore.getAnimalsData();
+  await AnimalStore.getSelectedAnimalsData();
+  data.value = selectedAnimalsData.value;
   AnimalStore.goToPage(1);
   isLoading.value = false;
 }
