@@ -47,6 +47,24 @@
         />
         <button @click="saveUserEmail" class="btn btn-success mt-1 mb-3 w-100">更新</button>
       </div>
+      <div class="d-flex justify-content-between">
+        <div class="d-flex flex-wrap">
+          <p class="me-2">密碼:</p>
+          <p>＊＊＊＊＊＊</p>
+        </div>
+        <div @click="displayPasswordInput" style="white-space: nowrap">
+          <font-awesome-icon :icon="['fas', 'pencil']" />編輯
+        </div>
+      </div>
+      <div v-if="passwordInputBox">
+        <input
+          type="text"
+          placeholder="請輸新密碼"
+          class="form-control"
+          v-model="newUserPassword"
+        />
+        <button @click="saveUserPassword" class="btn btn-success mt-1 mb-3 w-100">更新</button>
+      </div>
     </div>
   </div>
 </template>
@@ -63,10 +81,12 @@ const isLoading = ref(false);
 const nameInputBox = ref(false);
 const birthdateInputBox = ref(false);
 const emailInputBox = ref(false);
+const passwordInputBox = ref(false);
 
 const newUserName = ref('');
 const newUserBirthdate = ref('');
 const newUserEmail = ref('');
+const newUserPassword = ref('');
 
 const displayNameInput = () => {
   nameInputBox.value = !nameInputBox.value;
@@ -76,6 +96,9 @@ const displayBirthdateInput = () => {
 };
 const displayEmailInput = () => {
   emailInputBox.value = !emailInputBox.value;
+};
+const displayPasswordInput = () => {
+  passwordInputBox.value = !passwordInputBox.value;
 };
 
 const saveUserName = async () => {
@@ -91,6 +114,11 @@ const saveUserBirthdate = async () => {
 const saveUserEmail = async () => {
   await AuthStore.updateUserEmail(newUserEmail.value);
   emailInputBox.value = false;
+};
+
+const saveUserPassword = async () => {
+  await AuthStore.updateUserPassword(newUserPassword.value);
+  passwordInputBox.value = false;
 };
 
 onMounted(async () => {

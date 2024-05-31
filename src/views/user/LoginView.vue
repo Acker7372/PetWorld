@@ -1,7 +1,11 @@
 <template>
   <div class="container vw-100 vh-100 background">
     <div class="loginBox">
-      <div class="d-flex justify-content-center me-3 logoBox">
+      <div
+        @click="router.push('/')"
+        class="d-flex justify-content-center me-3 logoBox"
+        style="white-space: nowrap; cursor: pointer"
+      >
         <img class="logo" src="../../assets/img/logo.svg" alt="" />
         <h3 class="d-inline-block websiteName">Pet world</h3>
       </div>

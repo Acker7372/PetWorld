@@ -16,8 +16,10 @@ import Pagination from '@/components/Pagination.vue';
 import SelectFilter from '@/components/SelectFilter.vue';
 import { onMounted, ref, watch } from 'vue';
 import { useAnimalsStore } from '@/stores/animals';
+import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 const AnimalsStore = useAnimalsStore();
+const AuthStore = useAuthStore();
 const { favoriteAnimalId, animalsData, currentAnimals, data, isLoading } =
   storeToRefs(AnimalsStore);
 
@@ -29,9 +31,14 @@ if (data.value !== animalsData.value) {
 
 onMounted(async () => {
   try {
-    if (currentAnimals.value.length === 0) {
+    if (currentAnimals.value.length === 0 && AuthStore.isLoggedIn()) {
       isLoading.value = true;
       await AnimalsStore.getFavoriteAnimalId();
+      await AnimalsStore.getAnimalsData();
+      data.value = animalsData.value;
+      isLoading.value = false;
+    } else if (currentAnimals.value.length === 0 && !AuthStore.isLoggedIn()) {
+      isLoading.value = true;
       await AnimalsStore.getAnimalsData();
       data.value = animalsData.value;
       isLoading.value = false;

@@ -19,7 +19,7 @@
       <img
         v-else
         :src="animal.album_file"
-        @error="(event) => (event.target.src = defaultImage)"
+        @error="(event) => (event.target.src = '../../assets/img/default.jpg')"
         class="card-img-top"
         alt="Animal Image"
         loading="lazy"
@@ -36,12 +36,12 @@
         <div class="card-text d-flex align-items-center my-2">
           <font-awesome-icon :icon="['fas', 'location-dot']" class="" />
           <p class="card-text">
-            <span>{{ animal.animal_place }}</span>
+            <span>{{ animal.animal_place || '尚未提供' }}</span>
           </p>
         </div>
         <div class="card-text d-flex align-items-center">
           <font-awesome-icon :icon="['fas', 'calendar-days']" />
-          <p class="card-text">{{ animal.animal_opendate }} 可認養</p>
+          <p class="card-text">{{ animal.animal_opendate || '尚不可' }} 可認養</p>
         </div>
         <div class="d-flex justify-content-center">
           <button type="button" class="btn btn-success mt-4">
@@ -53,7 +53,7 @@
           </button>
         </div>
         <div
-          v-if="AuthStore.isLoggedIn"
+          v-if="AuthStore.isLoggedIn()"
           class="imgBox"
           @click="AuthStore.executeIfLoggedIn(() => AnimalsStore.saveAnimalId(animal.animal_id))"
         >
@@ -64,7 +64,7 @@
           />
           <img v-else src="@/assets/Icons/notSaveIcon.png" alt="" />
         </div>
-        <div v-else class="imgBox" @click="AuthStore.isLoggedIn">
+        <div v-else class="imgBox" @click="AuthStore.pleaseLogin">
           <img src="@/assets/Icons/notSaveIcon.png" alt="" />
         </div>
       </div>

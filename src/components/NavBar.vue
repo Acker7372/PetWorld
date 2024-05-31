@@ -30,24 +30,24 @@
             <a class="nav-link" href="#">領養認養</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">走失協尋</a>
+            <router-link class="nav-link" :to="{ name: 'LostPetFinder' }">走失協尋</router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">寵物送別</a>
           </li>
-          <li class="nav-item" v-if="!AuthStore.isLoggedIn">
+          <li class="nav-item" v-if="!AuthStore.isLoggedIn()">
             <router-link class="nav-link" to="/login">登入</router-link>
           </li>
-          <li class="nav-item" v-if="!AuthStore.isLoggedIn">
+          <li class="nav-item" v-if="!AuthStore.isLoggedIn()">
             <router-link class="nav-link" to="/register">註冊</router-link>
           </li>
-          <li class="nav-item" v-if="AuthStore.isLoggedIn">
+          <li class="nav-item" v-if="AuthStore.isLoggedIn()">
             <router-link class="nav-link" to="/favoriteAnimals">我的收藏</router-link>
           </li>
-          <li class="nav-item" v-if="AuthStore.isLoggedIn">
+          <li class="nav-item" v-if="AuthStore.isLoggedIn()">
             <router-link class="nav-link" :to="{ name: 'MemberProfile' }">會員中心</router-link>
           </li>
-          <li class="nav-item" v-if="AuthStore.isLoggedIn" @click="AuthStore.logout">
+          <li class="nav-item" v-if="AuthStore.isLoggedIn()" @click="AuthStore.logout">
             <router-link class="nav-link" to="/login">登出</router-link>
           </li>
         </ul>
@@ -59,8 +59,17 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
-
+import { ref, onMounted } from 'vue';
 const AuthStore = useAuthStore();
+// const navbarToggle = ref(null);
+
+// onMounted(() => {
+//   navbarToggle.value = document.querySelector('.navbar-toggler');
+// });
+
+// const collapseNavbar = () => {
+//   navbarToggle.value.click();
+// };
 </script>
 
 <style scoped lang="scss">

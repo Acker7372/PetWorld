@@ -1,8 +1,12 @@
 <template>
-  <div class="container vw-100 min-vh-100  background">
+  <div class="container vw-100 min-vh-100 background">
     <div class="registerBox">
       <!-- 標題和Logo -->
-      <div class="logoBox d-flex justify-content-center me-2">
+      <div
+        @click="router.push('/')"
+        class="logoBox d-flex justify-content-center me-2"
+        style="white-space: nowrap; cursor: pointer"
+      >
         <img class="logo" src="../../assets/img/logo.svg" alt="Pet World Logo" />
         <h3 class="d-inline-block websiteName">Pet world</h3>
       </div>

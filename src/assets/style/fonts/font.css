@@ -1,9 +1,13 @@
 @font-face {
-  /* 自己定義引用時的名稱 */
-  font-family: 'Open Huninn';
-  /* 把字體引用進來，3個都要 */
-  src:
-    url('../fonts/jf-openhuninn.ttf') format('woff'),
-    url('../fonts/jf-openhuninn.ttf') format('truetype'),
-    url('../fonts/jf-openhuninn.ttf') format('embedded-opentype');
+  font-family: 'ChenYuluoyan-center';
+  src: url(./ChenYuluoyan-Thin-Monospaced.ttf);
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Taipei';
+  src: url(./TaipeiSans.ttf);
+  font-weight: normal;
+  font-style: normal;
 }

@@ -1,6 +1,8 @@
 <template>
-  <AnimalCard />
-  <Pagination class="d-flex justify-content-center" />
+  <div class="min-vh-100">
+    <AnimalCard />
+    <Pagination class="d-flex justify-content-center" />
+  </div>
 </template>
 
 <script setup>
@@ -41,6 +43,7 @@ onMounted(async () => {
       isLoading.value = true;
       await AnimalsStore.getFavoriteAnimalId();
       await AnimalsStore.getAnimalsData();
+      data.value = favoriteAnimalsData.value;
       isLoading.value = false;
     }
   } catch (error) {

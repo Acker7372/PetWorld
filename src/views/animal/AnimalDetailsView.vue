@@ -1,6 +1,6 @@
 <template>
   <Loading v-if="isLoading" />
-  <div class="container" v-if="animalDetails">
+  <div v-bind="$attrs" class="container" v-if="animalDetails">
     <div class="row">
       <div class="imgBox col-12 col-lg-6">
         <img
@@ -8,11 +8,22 @@
           src="../../assets/img/default.jpg"
           class="w-100 h-100"
         />
-        <img v-else :src="animalDetails.album_file" alt="" class="w-100 h-100" />
+        <img
+          v-else
+          :src="animalDetails.album_file"
+          @error="(event) => (event.target.src = '../../assets/img/default.jpg')"
+          alt=""
+          class="w-100 h-100"
+        />
       </div>
 
       <div class="animalInfo mt-4 mt-lg-2 row col-lg-6">
-        <div class="saveAnimalIdBox" @click="AnimalsStore.saveAnimalId(animalDetails.animal_id)">
+        <div
+          class="saveAnimalIdBox"
+          @click="
+            AuthStore.executeIfLoggedIn(() => AnimalsStore.saveAnimalId(animalDetails.animal_id))
+          "
+        >
           <div style="cursor: pointer">
             <span>加入收藏</span>
             <img
@@ -24,41 +35,39 @@
           </div>
         </div>
         <p class="col-5 text-end">種類：</p>
-        <p class="col-7">{{ animalDetails.animal_kind }}</p>
+        <p class="col-7">{{ animalDetails.animal_kind || '尚未提供' }}</p>
 
         <p class="col-5 text-end">品種：</p>
-        <p class="col-7">{{ animalDetails.animal_Variety }}</p>
+        <p class="col-7">{{ animalDetails.animal_Variety || '尚未提供' }}</p>
 
         <p class="col-5 text-end">性別：</p>
-        <p v-if="animalDetails.animal_Variety === 'M'" class="col-7">公</p>
-        <p v-else-if="animalDetails.animal_Variety === 'F'" class="col-7">母</p>
+        <p v-if="animalDetails.animal_sex === 'M'" class="col-7">公</p>
+        <p v-else-if="animalDetails.animal_sex === 'F'" class="col-7">母</p>
         <p v-else class="col-7">尚未標明性別</p>
 
         <p class="col-5 text-end">毛色：</p>
-        <p class="col-7">{{ animalDetails.animal_colour }}</p>
+        <p class="col-7">{{ animalDetails.animal_colour || '尚未提供' }}</p>
 
         <p class="col-5 text-end">收容編號：</p>
-        <p class="col-7">{{ animalDetails.animal_subid }}</p>
+        <p class="col-7">{{ animalDetails.animal_subid || '尚未提供' }}</p>
 
         <p class="col-5 text-end">收容日期：</p>
-        <p class="col-7">{{ animalDetails.animal_createtime }}</p>
+        <p class="col-7">{{ animalDetails.animal_createtime || '尚未提供' }}</p>
 
         <p class="col-5 text-end">可認養日期：</p>
-        <p class="col-7">{{ animalDetails.animal_opendate }}</p>
+        <p class="col-7">{{ animalDetails.animal_opendate || '尚未提供' }}</p>
 
         <p class="col-5 text-end">公告收容所：</p>
-        <p class="col-7">{{ animalDetails.shelter_name }}</p>
+        <p class="col-7">{{ animalDetails.shelter_name || '尚未提供' }}</p>
 
         <p class="col-5 text-end">收容所電話：</p>
-        <p class="col-7">{{ animalDetails.shelter_tel }}</p>
+        <p class="col-7">{{ animalDetails.shelter_tel || '尚未提供' }}</p>
 
         <p class="col-5 text-end">收容所地址：</p>
-        <p class="col-7">{{ animalDetails.shelter_address }}</p>
+        <p class="col-7">{{ animalDetails.shelter_address || '尚未提供' }}</p>
 
-        <div v-if="animalDetails.animal_remark === true" class="row">
-          <p class="col-5 text-end">備註：</p>
-          <p class="col-7">{{ animalDetails.animal_remark }}</p>
-        </div>
+        <p class="col-5 text-end">備註：</p>
+        <p class="col-7">{{ animalDetails.animal_remark }}</p>
       </div>
     </div>
   </div>
@@ -71,20 +80,26 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAnimalsStore } from '@/stores/animals';
+import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import Loading from '@/components/Loading.vue';
 
 const route = useRoute();
 const AnimalsStore = useAnimalsStore();
+const AuthStore = useAuthStore();
 const { animalsData, favoriteAnimalId } = storeToRefs(AnimalsStore);
 const isLoading = ref(false);
 
 onMounted(async () => {
   try {
-    if (!animalsData.value.length) {
+    if (animalsData.value.length === 0) {
+      isLoading.value = true;
+      await AnimalsStore.getAnimalsData();
+      isLoading.value = false;
+    }
+    if (AuthStore.isLoggedIn()) {
       isLoading.value = true;
       await AnimalsStore.getFavoriteAnimalId();
-      // await AnimalsStore.getAnimalsData();
       isLoading.value = false;
     }
   } catch (error) {

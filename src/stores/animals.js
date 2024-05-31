@@ -2,11 +2,13 @@ import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import Compressor from 'compressorjs';
 
 export const useAnimalsStore = defineStore('Animals', () => {
   const animalsData = ref([]);
+  const lostPetData = ref([]);
   const selectedAnimalsData = ref([]);
-  const favoriteAnimalId = ref();
+  const favoriteAnimalId = ref([]);
   const currentPage = ref(1);
   const pageSize = 10;
   const selectRegion = ref('');
@@ -68,9 +70,69 @@ export const useAnimalsStore = defineStore('Animals', () => {
           'Content-Type': 'application/json',
         },
       });
+
       getFavoriteAnimalId();
     } catch (error) {
       console.error('getFavoriteAnimalId失敗了', error);
+    }
+  }
+
+  async function saveLostPet(petInfo, imageFile) {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        new Compressor(imageFile, {
+          quality: 0.1,
+          success: async function (compressedImage) {
+            let formData = new FormData();
+
+            // 將壓縮後的圖片和其他信息添加到表單
+            formData.append('petImage', compressedImage, compressedImage.name);
+            formData.append('petInfo', JSON.stringify(petInfo));
+
+            const response = await axios.post(
+              'http://localhost:3000/lostPet/saveLostPet',
+              formData,
+              {
+                headers: {
+                  Authorization: `${localStorage.getItem('jwt')}`,
+                  'Content-Type': 'multipart/form-data',
+                },
+              },
+            );
+            resolve(response);
+          },
+          error: function (err) {
+            reject(err);
+          },
+        });
+      });
+      return response;
+    } catch (error) {
+      console.error('上傳失敗', error);
+    }
+  }
+
+  async function getLostPetData() {
+    try {
+      const response = await axios.get('http://localhost:3000/lostPet/allLostPets');
+      console.log('response:', response);
+      lostPetData.value = response.data;
+    } catch (error) {
+      console.error('Api調用失敗了', error);
+    }
+  }
+
+  async function deleteLostPet(petId) {
+    try {
+      const response = await axios.delete(`http://localhost:3000/lostPet/deleteLostPet/${petId}`, {
+        headers: {
+          Authorization: `${localStorage.getItem('jwt')}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('response:', response);
+    } catch (error) {
+      console.error('Api調用失敗了', error);
     }
   }
 
@@ -83,6 +145,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
 
   return {
     animalsData,
+    lostPetData,
     selectedAnimalsData,
     favoriteAnimalId,
     data,
@@ -99,5 +162,8 @@ export const useAnimalsStore = defineStore('Animals', () => {
     goToPage,
     getFavoriteAnimalId,
     saveAnimalId,
+    saveLostPet,
+    getLostPetData,
+    deleteLostPet,
   };
 });

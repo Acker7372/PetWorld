@@ -84,18 +84,45 @@ export const useAuthStore = defineStore('Auth', () => {
     }
   };
 
+  const updateUserPassword = async (newUserPassword) => {
+    try {
+      const response = await axios.patch(
+        'http://localhost:3000/userInfo/updatePassword',
+        {
+          userPassword: newUserPassword,
+        },
+        {
+          headers: {
+            Authorization: `${localStorage.getItem('jwt')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      alert('密碼修改成功，請重新登入！');
+      localStorage.removeItem('jwt');
+      router.push({ name: 'Login' });
+    } catch (error) {
+      console.error('Api調用失敗了', error);
+    }
+  };
+
   const isLoggedIn = () => {
     if (!localStorage.getItem('jwt')) {
-      alert('請先登入！');
-      router.push({ name: 'Login' });
       return false;
     }
     return true;
   };
 
+  const pleaseLogin = () => {
+    alert('請先登入！');
+    router.push({ name: 'Login' });
+  };
+
   const executeIfLoggedIn = async (callBack) => {
     if (isLoggedIn()) {
       await callBack();
+    } else {
+      pleaseLogin();
     }
   };
 
@@ -112,11 +139,13 @@ export const useAuthStore = defineStore('Auth', () => {
     userInfo,
     logout,
     isLoggedIn,
+    pleaseLogin,
     reloadPage,
     executeIfLoggedIn,
     getUserInfo,
     updateUserName,
     updateUserBirthdate,
     updateUserEmail,
+    updateUserPassword,
   };
 });
