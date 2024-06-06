@@ -48,7 +48,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
 
   async function getFavoriteAnimalId() {
     try {
-      const response = await axios.get('http://localhost:3000/favoriteAnimal', {
+      const response = await axios.get('https://petworld-server.zeabur.app/favoriteAnimal', {
         headers: {
           Authorization: `${localStorage.getItem('jwt')}`,
           'Content-Type': 'application/json',
@@ -64,12 +64,16 @@ export const useAnimalsStore = defineStore('Animals', () => {
     try {
       const animalId = { animalId: animal };
 
-      const response = await axios.post('http://localhost:3000/favoriteAnimal', animalId, {
-        headers: {
-          Authorization: `${localStorage.getItem('jwt')}`,
-          'Content-Type': 'application/json',
+      const response = await axios.post(
+        'https://petworld-server.zeabur.app/favoriteAnimal',
+        animalId,
+        {
+          headers: {
+            Authorization: `${localStorage.getItem('jwt')}`,
+            'Content-Type': 'application/json',
+          },
         },
-      });
+      );
 
       getFavoriteAnimalId();
     } catch (error) {
@@ -90,7 +94,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
             formData.append('petInfo', JSON.stringify(petInfo));
 
             const response = await axios.post(
-              'http://localhost:3000/lostPet/saveLostPet',
+              'https://petworld-server.zeabur.app/lostPet/saveLostPet',
               formData,
               {
                 headers: {
@@ -114,7 +118,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
 
   async function getLostPetData() {
     try {
-      const response = await axios.get('http://localhost:3000/lostPet/allLostPets');
+      const response = await axios.get('https://petworld-server.zeabur.app/lostPet/allLostPets');
       console.log('response:', response);
       lostPetData.value = response.data;
     } catch (error) {
@@ -124,12 +128,15 @@ export const useAnimalsStore = defineStore('Animals', () => {
 
   async function deleteLostPet(petId) {
     try {
-      const response = await axios.delete(`http://localhost:3000/lostPet/deleteLostPet/${petId}`, {
-        headers: {
-          Authorization: `${localStorage.getItem('jwt')}`,
-          'Content-Type': 'application/json',
+      const response = await axios.delete(
+        `https://petworld-server.zeabur.app/lostPet/deleteLostPet/${petId}`,
+        {
+          headers: {
+            Authorization: `${localStorage.getItem('jwt')}`,
+            'Content-Type': 'application/json',
+          },
         },
-      });
+      );
       console.log('response:', response);
     } catch (error) {
       console.error('Api調用失敗了', error);
