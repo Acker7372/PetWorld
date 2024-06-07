@@ -233,7 +233,6 @@ const showSorryAlert = () => {
 };
 onMounted(async () => {
   loadFontsAndImages();
-  isLoaded.value = true;
   setInterval(() => {
     currentImage.value = (currentImage.value + 1) % leftImages.value.length;
   }, 3000);
