@@ -94,7 +94,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
             formData.append('petInfo', JSON.stringify(petInfo));
 
             const response = await axios.post(
-              'http://https://petworld-server.zeabur.app/lostPet/saveLostPet',
+              'https://petworld-server.zeabur.app/lostPet/saveLostPet',
               formData,
               {
                 headers: {

@@ -1,6 +1,6 @@
 <template>
   <Loading v-if="isLoading" />
-  <div class="container" v-if="lostPetDetails">
+  <div class="container mt-4" v-if="lostPetDetails">
     <div class="row">
       <div class="imgBox col-12 col-lg-6">
         <img
@@ -17,7 +17,7 @@
         />
       </div>
 
-      <div class="animalInfo mt-4 mt-lg-2 row col-lg-6">
+      <div class="animalInfo ms-1 ms-lg-0 mt-4 mt-lg-2 row col-lg-6">
         <!-- <div class="saveAnimalIdBox" @click="AnimalsStore.saveAnimalId(animalDetails.animal_id)">
           <div style="cursor: pointer">
             <span>加入收藏</span>
@@ -54,7 +54,7 @@
         <p class="col-7">{{ lostPetDetails.contactNumber }}</p>
 
         <p class="col-5 text-end">備註：</p>
-        <p class="col-7">{{ lostPetDetails.notes }}</p>
+        <p class="col-7">{{ lostPetDetails.notes || '目前沒有備註' }}</p>
       </div>
     </div>
   </div>
@@ -99,7 +99,30 @@ const lostPetDetails = computed(() => {
   overflow: auto;
   .row {
     height: auto;
+    .imgBox {
+      img {
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 #00000044;
+      }
+    }
     .animalInfo {
+      p {
+        background: #99d2c144;
+        border-radius: 10px;
+        border: 2px solid #212e2a44;
+        padding: 1px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 0 10px 0 #237b8544;
+      }
+      .col-5 {
+        font-weight: 600;
+      }
+      .col-7 {
+        background: #d2f2b751;
+        padding: 0 10px;
+      }
       .saveAnimalIdBox {
         display: flex;
         justify-content: center;

@@ -1,5 +1,16 @@
 <template>
-  <div class="min-vh-100">
+  <div
+    v-if="favoriteAnimalId.length === 0"
+    class="min-vh-100 d-flex flex-column justify-content-center align-items-center text-center"
+  >
+    <h3>目前沒有收藏的流浪動物</h3>
+    <br />
+    <h6>在公立領養頁面點擊愛心收藏!</h6>
+  </div>
+  <div
+    v-if="favoriteAnimalId.length > 0"
+    class="min-vh-100 mt-4 d-flex flex-column justify-content-between"
+  >
     <AnimalCard />
     <Pagination class="d-flex justify-content-center" />
   </div>

@@ -67,7 +67,7 @@
         <p class="col-7">{{ animalDetails.shelter_address || '尚未提供' }}</p>
 
         <p class="col-5 text-end">備註</p>
-        <p class="col-7">{{ animalDetails.animal_remark }}</p>
+        <p class="col-7">{{ animalDetails.animal_remark || '目前沒有備註' }}</p>
       </div>
     </div>
   </div>
@@ -149,7 +149,7 @@ const animalDetails = computed(() => {
         margin-bottom: 2rem;
         font-weight: 600;
         div {
-          display: inline-block;
+          // display: inline-block;
           background-color: #97beac;
           padding: 5px 20px;
           border-radius: 20px;

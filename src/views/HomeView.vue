@@ -149,10 +149,10 @@
 .container {
   .slogan {
     p:nth-child(1) {
-      animation: slideInFromLeft 2s ease-out;
+      animation: slideInFromLeft 5s ease-out;
     }
     p:nth-child(2) {
-      animation: slideInFromRight 2s ease-out;
+      animation: slideInFromRight 5s ease-out;
     }
   }
   // .sloganImgLeft {
