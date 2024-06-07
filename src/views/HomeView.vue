@@ -203,6 +203,7 @@ import catAndMan from '@/assets/img/homeImg/catAndMan.png';
 import dogAndWoman from '@/assets/img/homeImg/dogAndWoman.png';
 import { useAuthStore } from '@/stores/auth';
 import Loading from '@/components/Loading.vue';
+import FontFaceObserver from 'fontfaceobserver';
 
 // const AuthStore = useAuthStore();
 const rightImages = ref([sadDog, sadCat, studentCat]);
@@ -211,8 +212,8 @@ const currentImage = ref(0);
 const AuthStore = useAuthStore();
 
 const isLoaded = ref(false);
-
-const imageSources = [...rightImages.value, ...leftImages.value]; // 包含所有圖片的陣列
+const imageSources = [...rightImages.value, ...leftImages.value];
+const font = new FontFaceObserver('ChenYuluoyan-center');
 
 const loadImage = (image) => {
   return new Promise((resolve) => {
@@ -224,7 +225,7 @@ const loadImage = (image) => {
 
 const loadFontsAndImages = async () => {
   await Promise.all(imageSources.map(loadImage));
-  await document.fonts.ready;
+  await font.load(null, 20000);
   isLoaded.value = true;
 };
 
