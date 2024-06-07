@@ -94,7 +94,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
             formData.append('petInfo', JSON.stringify(petInfo));
 
             const response = await axios.post(
-              'http://localhost:3000/lostPet/saveLostPet',
+              'http://https://petworld-server.zeabur.app/lostPet/saveLostPet',
               formData,
               {
                 headers: {
@@ -118,7 +118,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
 
   async function getLostPetData() {
     try {
-      const response = await axios.get('http://localhost:3000/lostPet/allLostPets');
+      const response = await axios.get('https://petworld-server.zeabur.app/lostPet/allLostPets');
       console.log('response:', response);
       lostPetData.value = response.data;
     } catch (error) {
