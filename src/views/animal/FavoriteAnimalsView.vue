@@ -56,6 +56,11 @@ onMounted(async () => {
       await AnimalsStore.getAnimalsData();
       data.value = favoriteAnimalsData.value;
       isLoading.value = false;
+    } else if (animalsData.value.length > 0 && AuthStore.isLoggedIn) {
+      isLoading.value = true;
+      await AnimalsStore.getFavoriteAnimalId();
+      data.value = favoriteAnimalsData.value;
+      isLoading.value = false;
     }
   } catch (error) {
     console.error('FavoriteAnimals.vue onMounted error:', error);
