@@ -1,5 +1,6 @@
 <template>
-  <div class="container min-vh-100">
+  <Loading v-if="!isLoaded" />
+  <div v-if="isLoaded" class="container min-vh-100">
     <div class="logo">
       <img src="../assets/img/homeImg/PetWorldLogo-removebg.png" alt="" />
     </div>
@@ -201,6 +202,7 @@ import sanpoDog from '@/assets/img/homeImg/sanpoDog.png';
 import catAndMan from '@/assets/img/homeImg/catAndMan.png';
 import dogAndWoman from '@/assets/img/homeImg/dogAndWoman.png';
 import { useAuthStore } from '@/stores/auth';
+import Loading from '@/components/Loading.vue';
 
 // const AuthStore = useAuthStore();
 const rightImages = ref([sadDog, sadCat, studentCat]);
@@ -210,7 +212,11 @@ const AuthStore = useAuthStore();
 const showSorryAlert = () => {
   alert('這個功能正在施工中！ Sorry！');
 };
+const isLoaded = ref(false);
 onMounted(() => {
+  setTimeout(() => {
+    isLoaded.value = true;
+  }, 8000);
   setInterval(() => {
     currentImage.value = (currentImage.value + 1) % leftImages.value.length;
   }, 3000);
