@@ -3,8 +3,17 @@
   <div class="container min-vh-100 d-flex flex-column justify-content-between">
     <div class="d-flex flex-column justify-content-center">
       <button
+        v-if="!AuthStore.isLoggedIn()"
         type="button"
-        class="btn btn-primary mb-2 mt-2"
+        class="btn btn-success mb-2 mt-2"
+        @click="AuthStore.pleaseLogin"
+      >
+        ＋製作遺失協尋資訊卡
+      </button>
+      <button
+        v-if="AuthStore.isLoggedIn()"
+        type="button"
+        class="btn btn-success mb-2 mt-2"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       >
@@ -187,6 +196,7 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import { useAnimalsStore } from '@/stores/animals';
+import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import axios from 'axios';
 import Modal from 'bootstrap/js/dist/modal';
@@ -194,6 +204,7 @@ import Pagination from '@/components/Pagination.vue';
 import LostPetCard from '@/components/LostPetCard.vue';
 
 const AnimalStore = useAnimalsStore();
+const AuthStore = useAuthStore();
 const { data, lostPetData, isLoading } = storeToRefs(AnimalStore);
 let modalInstance = null;
 

@@ -209,14 +209,31 @@ const rightImages = ref([sadDog, sadCat, studentCat]);
 const leftImages = ref([sanpoDog, catAndMan, dogAndWoman]);
 const currentImage = ref(0);
 const AuthStore = useAuthStore();
+
+const isLoaded = ref(false);
+
+const imageSources = [...rightImages.value, ...leftImages.value]; // 包含所有圖片的陣列
+
+const loadImage = (image) => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = resolve;
+    img.src = image;
+  });
+};
+
+const loadFontsAndImages = async () => {
+  await Promise.all(imageSources.map(loadImage));
+  await document.fonts.ready;
+  isLoaded.value = true;
+};
+
 const showSorryAlert = () => {
   alert('這個功能正在施工中！ Sorry！');
 };
-const isLoaded = ref(false);
-onMounted(() => {
-  setTimeout(() => {
-    isLoaded.value = true;
-  }, 8000);
+onMounted(async () => {
+  loadFontsAndImages();
+  isLoaded.value = true;
   setInterval(() => {
     currentImage.value = (currentImage.value + 1) % leftImages.value.length;
   }, 3000);

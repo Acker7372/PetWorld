@@ -13,7 +13,7 @@
       />
       <img
         v-else
-        :src="`http://localhost:3000/${pet.petImage}`"
+        :src="pet.petImage"
         @error="(event) => (event.target.src = '../../assets/img/default.jpg')"
         class="card-img-top"
         alt="Animal Image"

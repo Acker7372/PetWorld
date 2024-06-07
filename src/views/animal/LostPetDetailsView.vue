@@ -10,7 +10,7 @@
         />
         <img
           v-else
-          :src="`http://localhost:3000/${lostPetDetails.petImage}`"
+          :src="lostPetDetails.petImage"
           @error="(event) => (event.target.src = '../../assets/img/default.jpg')"
           alt=""
           class="w-100 h-100"

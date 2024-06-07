@@ -65,7 +65,7 @@ const submitForm = async () => {
     password: password.value,
   };
   try {
-    const response = await axios.post('https://petworld-server.zeabur.app/login', userData);
+    const response = await axios.post('http://localhost:3000/login', userData);
     if (response.status === 200) {
       localStorage.setItem('jwt', response.data.token);
       alert('登錄成功！');
