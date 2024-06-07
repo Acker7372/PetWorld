@@ -4,7 +4,7 @@
     <div class="d-flex flex-column justify-content-center">
       <button
         type="button"
-        class="btn btn-primary mb-2"
+        class="btn btn-primary mb-2 mt-2"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       >
@@ -13,7 +13,7 @@
       <LostPetCard />
     </div>
 
-    <div class="d-flex justify-content-center">
+    <div v-if="lostPetData.length > 0" class="d-flex justify-content-center">
       <Pagination />
     </div>
   </div>

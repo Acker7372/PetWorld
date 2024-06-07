@@ -65,7 +65,7 @@ const submitForm = async () => {
     password: password.value,
   };
   try {
-    const response = await axios.post('http://localhost:3000/login', userData);
+    const response = await axios.post('https://petworld-server.zeabur.app/login', userData);
     if (response.status === 200) {
       localStorage.setItem('jwt', response.data.token);
       alert('登錄成功！');
@@ -128,14 +128,15 @@ const goBack = () => {
     border: 1px solid gainsboro;
     border-radius: 10px;
     padding: 2rem;
-    img {
-      width: 4rem;
-      height: 4rem;
+    .logo {
+      width: 3rem;
+      height: 3rem;
     }
+
     .websiteName {
       font-size: 2rem;
-      position: relative;
-      top: -0.3rem;
+      // position: relative;
+      // top: -0.3rem;
     }
     h6 {
       font-size: 1.5rem;

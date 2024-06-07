@@ -39,7 +39,7 @@ const { currentPage, totalPages } = storeToRefs(AnimalsStore);
 
 const siblingCount = 2; // 當前頁碼前後顯示的頁碼數量
 const pageNumbers = computed(() => {
-  const totalNumbers = siblingCount * 2 + 2; // 總顯示的頁碼數量
+  const totalNumbers = siblingCount * 2 + 0; // 總顯示的頁碼數量
   const totalBlocks = totalNumbers + 2; // 總顯示的頁碼數量加上首尾頁碼
 
   if (totalPages.value > totalBlocks) {

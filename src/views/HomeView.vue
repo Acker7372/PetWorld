@@ -208,7 +208,7 @@ const leftImages = ref([sanpoDog, catAndMan, dogAndWoman]);
 const currentImage = ref(0);
 const AuthStore = useAuthStore();
 const showSorryAlert = () => {
-  alert('抱歉，這個功能正在施工中！');
+  alert('這個功能正在施工中！ Sorry！');
 };
 onMounted(() => {
   setInterval(() => {

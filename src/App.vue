@@ -23,6 +23,6 @@ import Footer from '@/components/Footer.vue';
 .body {
   /* min-height: 100vh; */
   box-sizing: border-box;
-  background: #f8f0e5;
+  background: #f4ede4;
 }
 </style>

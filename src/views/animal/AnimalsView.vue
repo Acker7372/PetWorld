@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
       <AnimalCard />
     </div>
-    <Pagination class="d-flex justify-content-center" />
+    <Pagination class="Pagination d-flex justify-content-center" />
   </div>
 </template>
 <style scoped lang="scss"></style>

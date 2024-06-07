@@ -1,8 +1,8 @@
 <template>
-  <div class="container min-vh-100">
+  <div class="container min-vh-100 my-5">
     <h1>基本資料</h1>
     <Loading v-if="isLoading" />
-    <div v-else>
+    <div v-else class="info">
       <div class="d-flex justify-content-between flex-wrap">
         <div class="d-flex flex-wrap">
           <p class="me-2">名稱:</p>
@@ -129,3 +129,19 @@ onMounted(async () => {
   }
 });
 </script>
+
+<style scoped>
+h1 {
+  display: flex;
+  justify-content: center;
+  /* border: 3px solid #3fd0a4ed; */
+  /* border-radius: 10px; */
+}
+
+.info {
+  border: 3px solid #3fd0a4ed;
+  border-radius: 10px;
+  height: auto;
+  padding: 10px;
+}
+</style>

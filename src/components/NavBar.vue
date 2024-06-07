@@ -27,13 +27,10 @@
             <router-link class="nav-link" :to="{ name: 'Animals' }">公立領養</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">領養認養</a>
-          </li>
-          <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'LostPetFinder' }">走失協尋</router-link>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">寵物送別</a>
+          <li class="nav-item" @click="showSorryAlert">
+            <a class="nav-link" href="#" @click.prevent>寵物送別</a>
           </li>
           <li class="nav-item" v-if="!AuthStore.isLoggedIn()">
             <router-link class="nav-link" to="/login">登入</router-link>
@@ -61,6 +58,10 @@ import { RouterLink } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import { ref, onMounted } from 'vue';
 const AuthStore = useAuthStore();
+
+const showSorryAlert = () => {
+  alert('這個功能正在施工中! Sorry!');
+};
 // const navbarToggle = ref(null);
 
 // onMounted(() => {
@@ -74,7 +75,8 @@ const AuthStore = useAuthStore();
 
 <style scoped lang="scss">
 nav {
-  background: #e9e7e7;
+  border-bottom: 1px solid #a2dcc11e;
+  background: #f5ebeb;
   .nav-box {
     width: 100vw;
 
@@ -93,7 +95,6 @@ nav {
           font-style: normal;
           position: relative;
           top: 0.2rem;
-          // color: aliceblue;
         }
       }
     }
@@ -103,6 +104,7 @@ nav {
   nav {
     .nav-box {
       display: flex;
+      margin-bottom: 10px;
       .logo-box {
         position: static;
         transform: none;
@@ -125,7 +127,7 @@ nav {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-
+      margin-bottom: 0px;
       .logo-box {
         a {
           position: relative;
