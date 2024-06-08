@@ -56,11 +56,15 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, h } from 'vue';
+import { ElNotification } from 'element-plus';
 const AuthStore = useAuthStore();
 
 const showSorryAlert = () => {
-  alert('這個功能正在施工中! Sorry!');
+  ElNotification({
+    title: '道歉訊息',
+    message: h('i', { style: 'color: teal' }, '這個頁面還在施工中！不好意思！！！'),
+  });
 };
 // const navbarToggle = ref(null);
 

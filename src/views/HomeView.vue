@@ -194,7 +194,7 @@
 }
 </style>
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, h } from 'vue';
 import sadDog from '@/assets/img/homeImg/sadDog.png';
 import sadCat from '@/assets/img/homeImg/sadCat.png';
 import studentCat from '@/assets/img/homeImg/studentCat.png';
@@ -204,6 +204,7 @@ import dogAndWoman from '@/assets/img/homeImg/dogAndWoman.png';
 import { useAuthStore } from '@/stores/auth';
 import Loading from '@/components/Loading.vue';
 import FontFaceObserver from 'fontfaceobserver';
+import { ElNotification } from 'element-plus';
 
 // const AuthStore = useAuthStore();
 const rightImages = ref([sadDog, sadCat, studentCat]);
@@ -230,7 +231,10 @@ const loadFontsAndImages = async () => {
 };
 
 const showSorryAlert = () => {
-  alert('這個功能正在施工中！ Sorry！');
+  ElNotification({
+    title: '道歉訊息',
+    message: h('i', { style: 'color: teal' }, '這個頁面還在施工中！不好意思！！！'),
+  });
 };
 onMounted(async () => {
   loadFontsAndImages();
