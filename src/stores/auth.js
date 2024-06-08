@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import axios from 'axios';
+import { ElMessageBox } from 'element-plus';
+import { ElMessage } from 'element-plus';
 
 export const useAuthStore = defineStore('Auth', () => {
   const router = useRouter();
@@ -114,8 +116,16 @@ export const useAuthStore = defineStore('Auth', () => {
   };
 
   const pleaseLogin = () => {
-    alert('請先登入！');
-    router.push({ name: 'Login' });
+    ElMessageBox.confirm('登入才可以使用該功能，請問是否前往登入呢？', '提示', {
+      confirmButtonText: '好的',
+      cancelButtonText: '不要',
+      type: 'warning',
+    }).then(() => {
+      router.push({ name: 'Login' });
+    });
+    // .catch(() => {
+    //   // console.log('取消前往登入');
+    // });
   };
 
   const executeIfLoggedIn = async (callBack) => {
@@ -128,7 +138,10 @@ export const useAuthStore = defineStore('Auth', () => {
 
   const logout = () => {
     localStorage.removeItem('jwt');
-    alert('您已登出！');
+    ElMessage({
+      message: '您已登出！',
+      type: 'success',
+    });
   };
 
   const reloadPage = () => {

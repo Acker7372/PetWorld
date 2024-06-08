@@ -51,6 +51,7 @@ import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import Loading from '@/components/Loading.vue';
 import bgImg from '../../assets/img/background.gif';
+import { ElMessage } from 'element-plus';
 
 const router = useRouter();
 const AuthStore = useAuthStore();
@@ -62,7 +63,7 @@ const password = ref('');
 
 const submitForm = async () => {
   if (!email.value || !password.value) {
-    alert('請輸入帳號及密碼！');
+    ElMessage.error('請輸入電子郵件和密碼！');
     return;
   }
   const userData = {
@@ -73,7 +74,7 @@ const submitForm = async () => {
     const response = await axios.post('https://petworld-server.zeabur.app/login', userData);
     if (response.status === 200) {
       localStorage.setItem('jwt', response.data.token);
-      alert('登錄成功！');
+      ElMessage.success('登入成功！');
       console.log(response);
       userInfo.value = response.data.user;
       console.log('userInfo:', userInfo.value);

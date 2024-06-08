@@ -78,6 +78,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import Loading from '@/components/Loading.vue';
 import bgImg from '../../assets/img/background.gif';
+import { ElMessage } from 'element-plus';
 
 const isLoaded = ref(false);
 const email = ref('');
@@ -100,11 +101,11 @@ const submitForm = async () => {
     !userName.value ||
     !birthday.value
   ) {
-    alert('請填寫所有欄位。');
+    ElMessage.error('請填寫所有欄位！');
     return;
   }
   if (passwordMismatch.value) {
-    alert('兩次輸入的密碼不一致！');
+    ElMessage.error('兩次輸入的密碼不一致！');
     return;
   }
 
@@ -122,16 +123,16 @@ const submitForm = async () => {
 
     // 檢查響應是否成功
     if (response.status === 200) {
-      alert('註冊成功！');
+      ElMessage.success('註冊成功！');
       router.push({ name: 'Login' });
     }
   } catch (error) {
     console.error(error);
     if (error.response.data === 'Email已被註冊') {
-      alert('您提供的Email已被註冊，請使用其他Email');
+      ElMessage.error('該電子郵件已被註冊，請嘗試其他電子郵件。');
       return;
     } else {
-      alert('註冊失敗。');
+      ElMessage.error('註冊失敗，請重試。');
       return;
     }
   }
