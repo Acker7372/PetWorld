@@ -1,5 +1,6 @@
 <template>
-  <div class="container vw-100 min-vh-100 background">
+  <Loading v-if="!isLoaded" />
+  <div v-if="isLoaded" class="container vw-100 min-vh-100 background">
     <div class="registerBox">
       <!-- 標題和Logo -->
       <div
@@ -73,17 +74,19 @@
 
 <script setup>
 import axios from 'axios';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import Loading from '@/components/Loading.vue';
+import bgImg from '../../assets/img/background.gif';
 
-// 定義反應性數據
+const isLoaded = ref(false);
 const email = ref('');
 const password = ref('');
 const confirmPassword = ref('');
 const userName = ref('');
 const birthday = ref('');
 const router = useRouter();
-// 計算屬性，用於檢查密碼是否匹配
+
 const passwordMismatch = computed(
   () => password.value !== confirmPassword.value && confirmPassword.value !== '',
 );
@@ -136,6 +139,25 @@ const submitForm = async () => {
 const goBack = () => {
   window.history.back();
 };
+
+const loadImg = () => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = resolve;
+    img.onerror = reject;
+    img.src = bgImg;
+  });
+};
+
+onMounted(async () => {
+  try {
+    await loadImg();
+    isLoaded.value = true;
+  } catch (error) {
+    console.error('image加載失敗:', error);
+    isLoaded.value = true;
+  }
+});
 </script>
 
 <style scoped lang="scss">

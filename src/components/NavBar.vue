@@ -83,7 +83,7 @@ nav {
     .logo-box {
       position: absolute;
       left: 50%;
-      top: 5px;
+      top: 10px;
       transform: translateX(-50%);
       a {
         img {
@@ -109,6 +109,7 @@ nav {
         position: static;
         transform: none;
         margin: 0 2rem;
+        margin-top: 3px;
       }
       #navbarSupportedContent {
         ul {

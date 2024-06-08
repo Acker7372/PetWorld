@@ -1,5 +1,6 @@
 <template>
-  <div class="container vw-100 vh-100 background">
+  <Loading v-if="!isLoaded" />
+  <div v-if="isLoaded" class="container vw-100 vh-100 background">
     <div class="loginBox">
       <div
         @click="router.push('/')"
@@ -43,15 +44,19 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
+import Loading from '@/components/Loading.vue';
+import bgImg from '../../assets/img/background.gif';
+
 const router = useRouter();
 const AuthStore = useAuthStore();
 const { userInfo } = storeToRefs(AuthStore);
 
+const isLoaded = ref(false);
 const email = ref('');
 const password = ref('');
 
@@ -84,12 +89,28 @@ const submitForm = async () => {
 const goBack = () => {
   window.history.back();
 };
+
+const loadImg = () => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = resolve;
+    img.onerror = reject;
+    img.src = bgImg;
+  });
+};
+
+onMounted(async () => {
+  try {
+    await loadImg();
+    isLoaded.value = true;
+  } catch (error) {
+    console.error('image加載失敗:', error);
+    isLoaded.value = true;
+  }
+});
 </script>
 
 <style scoped lang="scss">
-.background {
-  background-color: rgb(252, 249, 249);
-}
 .goBack {
   color: #327cfb;
 }
