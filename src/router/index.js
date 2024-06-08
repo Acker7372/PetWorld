@@ -52,6 +52,10 @@ const router = createRouter({
       component: () => import('../views/animal/LostPetDetailsView.vue'),
     },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    // 始終滾動到頂部
+    return { top: 0 };
+  },
 });
 
 router.afterEach(() => {
