@@ -164,6 +164,7 @@ onMounted(async () => {
 .logoBox {
   position: relative;
   top: 10px;
+  margin-bottom: 3px;
 }
 h3 {
   font-family: 'Concert One', sans-serif;
@@ -173,6 +174,9 @@ h3 {
 .logo {
   width: 40px;
   height: 40px;
+}
+.websiteName {
+  margin-top: 4px;
 }
 .birthday {
   border: 1px solid gainsboro;
@@ -212,7 +216,7 @@ h3 {
         .websiteName {
           font-size: 2rem;
           position: relative;
-          top: 0.3rem;
+          top: 0.25rem;
         }
       }
       /* 提示文字樣式 */

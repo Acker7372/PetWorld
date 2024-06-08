@@ -10,7 +10,7 @@
         <img class="logo" src="../../assets/img/logo.svg" alt="" />
         <h3 class="d-inline-block websiteName">Pet world</h3>
       </div>
-      <h6 class="text-center ms-4">歡迎回來！</h6>
+      <h6 class="text-center ms-4 mt-1">歡迎回來！</h6>
       <form @submit.prevent="submitForm">
         <div class="mb-3">
           <label for="Email" class="form-label">電子郵件</label>
@@ -123,8 +123,9 @@ onMounted(async () => {
     height: 40px;
   }
   .websiteName {
-    position: relative;
-    top: 0.1rem;
+    // position: relative;
+    // top: 0.5rem;
+    margin-top: 6px;
     font-family: 'Concert One', sans-serif;
     font-weight: 400;
     font-style: normal;

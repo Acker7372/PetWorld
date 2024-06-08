@@ -79,7 +79,6 @@ nav {
   background: #f5ebeb;
   .nav-box {
     width: 100vw;
-
     .logo-box {
       position: absolute;
       left: 50%;
@@ -87,8 +86,8 @@ nav {
       transform: translateX(-50%);
       a {
         img {
-          width: 25px;
-          height: 25px;
+          width: 40px;
+          height: 40px;
         }
         .websiteName {
           // font-weight: 400;
