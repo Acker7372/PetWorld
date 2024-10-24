@@ -11,7 +11,7 @@ export const useAuthStore = defineStore('Auth', () => {
 
   async function getUserInfo() {
     try {
-      const response = await axios.get('https://petworld-server.zeabur.app/userInfo', {
+      const response = await axios.get('https://petworld-server.hkg1.zeabur.app/userInfo', {
         headers: {
           Authorization: `${localStorage.getItem('jwt')}`,
           'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export const useAuthStore = defineStore('Auth', () => {
   const updateUserName = async (newUserName) => {
     try {
       const response = await axios.patch(
-        'https://petworld-server.zeabur.app/userInfo/updateName',
+        'https://petworld-server.hkg1.zeabur.app/userInfo/updateName',
         {
           userName: newUserName,
         },
@@ -48,7 +48,7 @@ export const useAuthStore = defineStore('Auth', () => {
   const updateUserBirthdate = async (newUserBirthdate) => {
     try {
       const response = await axios.patch(
-        'https://petworld-server.zeabur.app/userInfo/updateBirthdate',
+        'https://petworld-server.hkg1.zeabur.app/userInfo/updateBirthdate',
         {
           userBirthdate: newUserBirthdate,
         },
@@ -68,7 +68,7 @@ export const useAuthStore = defineStore('Auth', () => {
   const updateUserEmail = async (newUserEmail) => {
     try {
       const response = await axios.patch(
-        'https://petworld-server.zeabur.app/userInfo/updateEmail',
+        'https://petworld-server.hkg1.zeabur.app/userInfo/updateEmail',
         {
           userEmail: newUserEmail,
         },
@@ -89,7 +89,7 @@ export const useAuthStore = defineStore('Auth', () => {
   const updateUserPassword = async (newUserPassword) => {
     try {
       const response = await axios.patch(
-        'https://petworld-server.zeabur.app/userInfo/updatePassword',
+        'https://petworld-server.hkg1.zeabur.app/userInfo/updatePassword',
         {
           userPassword: newUserPassword,
         },
