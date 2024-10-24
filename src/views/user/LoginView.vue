@@ -71,7 +71,7 @@ const submitForm = async () => {
     password: password.value,
   };
   try {
-    const response = await axios.post('https://petworld-server.zeabur.app/login', userData);
+    const response = await axios.post('https://petworld-server.hkg1.zeabur.app/login', userData);
     if (response.status === 200) {
       localStorage.setItem('jwt', response.data.token);
       ElMessage.success('登入成功！');
