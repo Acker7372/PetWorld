@@ -48,7 +48,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
 
   async function getFavoriteAnimalId() {
     try {
-      const response = await axios.get('https://petworld-server.zeabur.app/favoriteAnimal', {
+      const response = await axios.get('https://petworld-server.hkg1.zeabur.app/favoriteAnimal', {
         headers: {
           Authorization: `${localStorage.getItem('jwt')}`,
           'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
       const animalId = { animalId: animal };
 
       const response = await axios.post(
-        'https://petworld-server.zeabur.app/favoriteAnimal',
+        'https://petworld-server.hkg1.zeabur.app/favoriteAnimal',
         animalId,
         {
           headers: {
@@ -94,7 +94,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
             formData.append('petInfo', JSON.stringify(petInfo));
 
             const response = await axios.post(
-              'https://petworld-server.zeabur.app/lostPet/saveLostPet',
+              'https://petworld-server.hkg1.zeabur.app/lostPet/saveLostPet',
               formData,
               {
                 headers: {
@@ -118,7 +118,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
 
   async function getLostPetData() {
     try {
-      const response = await axios.get('https://petworld-server.zeabur.app/lostPet/allLostPets');
+      const response = await axios.get('https://petworld-server.hkg1.zeabur.app/lostPet/allLostPets');
       console.log('response:', response);
       lostPetData.value = response.data;
     } catch (error) {
@@ -129,7 +129,7 @@ export const useAnimalsStore = defineStore('Animals', () => {
   async function deleteLostPet(petId) {
     try {
       const response = await axios.delete(
-        `https://petworld-server.zeabur.app/lostPet/deleteLostPet/${petId}`,
+        `https://petworld-server.hkg1.zeabur.app/lostPet/deleteLostPet/${petId}`,
         {
           headers: {
             Authorization: `${localStorage.getItem('jwt')}`,
