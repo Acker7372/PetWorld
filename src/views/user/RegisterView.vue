@@ -119,7 +119,7 @@ const submitForm = async () => {
 
   try {
     // 發送POST請求到後端
-    const response = await axios.post('https://petworld-server.zeabur.app/register', userData);
+    const response = await axios.post('https://petworld-server.hkg1.zeabur.app/register', userData);
 
     // 檢查響應是否成功
     if (response.status === 200) {
